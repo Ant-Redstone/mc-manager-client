@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import type React from 'react'
-import { Zap, RefreshCw, ChevronDown, Trash2, Pencil, CircleCheck, CircleX } from 'lucide-react'
+import { Zap, RefreshCw, ChevronDown, Trash2, Pencil, Plus, CircleCheck, CircleX } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { usePermissions } from '../../context/PermissionsContext'
 import { failureMessage } from '../../lib/api'
@@ -15,12 +15,19 @@ import {
   type Rule,
   type Firing,
 } from '../../lib/automations'
+import { useServers } from '../../context/ServersContext'
+import RuleBuilder from './RuleBuilder'
 import './Automations.css'
 
 function Automations() {
   const { token } = useAuth()
   const { can } = usePermissions()
   const mayManage = can('automations.manage')
+  // A new rule is bound to whichever server the panel is currently managing.
+  // Null means an older backend with no registry, where "default" is the only
+  // server there has ever been -- the same id its flat routes still answer to.
+  const { currentServerId } = useServers()
+  const activeServerId = currentServerId ?? 'default'
 
   const [rules, setRules] = useState<Rule[]>([])
   const [loading, setLoading] = useState(true)
@@ -37,6 +44,8 @@ function Automations() {
   const [firings, setFirings] = useState<Record<number, Firing[]>>({})
   const [confirming, setConfirming] = useState<number | null>(null)
   const [busy, setBusy] = useState<number | null>(null)
+  // null = closed. A Rule opens it for editing; `true` opens it empty.
+  const [building, setBuilding] = useState<Rule | true | null>(null)
 
   // `load` fetches and returns; the caller applies. Keeping the setState out of
   // it is what lets the effect below call it without tripping the compiler's
@@ -124,19 +133,27 @@ function Automations() {
             Regras que rodam sozinhas: quando algo acontece no servidor, o painel responde.
           </p>
         </div>
-        <button
-          className="auto-refresh"
-          onClick={() => {
-            setLoading(true)
-            setNow(Date.now())
-            setReloadKey((k) => k + 1)
-          }}
-          disabled={loading}
-          title="Atualizar"
-        >
-          <RefreshCw size={15} className={loading ? 'spin' : ''} />
-          Atualizar
-        </button>
+        <div className="auto-headbtns">
+          <button
+            className="auto-refresh"
+            onClick={() => {
+              setLoading(true)
+              setNow(Date.now())
+              setReloadKey((k) => k + 1)
+            }}
+            disabled={loading}
+            title="Atualizar"
+          >
+            <RefreshCw size={15} className={loading ? 'spin' : ''} />
+            Atualizar
+          </button>
+          {mayManage && (
+            <button className="auto-new" onClick={() => setBuilding(true)}>
+              <Plus size={15} />
+              Nova automação
+            </button>
+          )}
+        </div>
       </div>
 
       {error && <p className="auto-error">{error}</p>}
@@ -156,6 +173,12 @@ function Automations() {
             Discord”, “todo dia às 5h, faz um backup”, “se o TPS ficar abaixo de 5 por 5 minutos,
             reinicia”.
           </p>
+          {mayManage && (
+            <button className="auto-new" onClick={() => setBuilding(true)}>
+              <Plus size={15} />
+              Criar a primeira
+            </button>
+          )}
         </div>
       )}
 
@@ -257,13 +280,19 @@ function Automations() {
                         />
                         <span className="auto-slider" />
                       </label>
-                      <button className="abtn" disabled title="Editar (em breve)">
+                      <button
+                        className="abtn"
+                        onClick={() => setBuilding(r)}
+                        title="Editar"
+                        aria-label={`Editar ${r.name}`}
+                      >
                         <Pencil size={14} />
                       </button>
                       <button
                         className="abtn abtn-danger"
                         onClick={() => setConfirming(r.id)}
                         title="Apagar"
+                        aria-label={`Apagar ${r.name}`}
                       >
                         <Trash2 size={14} />
                       </button>
@@ -274,6 +303,17 @@ function Automations() {
             </li>
           ))}
         </ul>
+      )}
+      {building && (
+        <RuleBuilder
+          rule={building === true ? null : building}
+          serverId={activeServerId}
+          onClose={() => setBuilding(null)}
+          onSaved={() => {
+            setLoading(true)
+            setReloadKey((k) => k + 1)
+          }}
+        />
       )}
     </div>
   )
