@@ -1,0 +1,209 @@
+.ov-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: page-enter var(--t) var(--ease) both;
+}
+
+.ov-head { display: flex; flex-direction: column; gap: .2rem; }
+.ov-head h2 { margin: 0; }
+.ov-sub { margin: 0; color: var(--text-dim); font-size: .9rem; }
+
+/* ---- the four tiles ------------------------------------------------ */
+.ov-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: .75rem;
+}
+
+.ov-tile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .85rem .95rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.ov-tile-label {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.ov-tile-value {
+  display: flex;
+  align-items: baseline;
+  gap: .45rem;
+  font-size: 1.5rem;
+  font-weight: 620;
+  letter-spacing: -.02em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+
+.ov-tile-of { font-size: .95rem; font-weight: 500; color: var(--text-mute); }
+.ov-tile-foot { font-size: .78rem; color: var(--text-dim); }
+.ov-tile-foot a { color: var(--brand); text-decoration: none; }
+.ov-tile-foot a:hover { text-decoration: underline; }
+
+.ov-dot {
+  width: .6rem;
+  height: .6rem;
+  border-radius: 50%;
+  flex: none;
+  align-self: center;
+}
+.ov-dot.on { background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 22%, transparent); }
+.ov-dot.off { background: var(--text-mute); }
+
+/* ---- two columns --------------------------------------------------- */
+.ov-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: .75rem;
+  align-items: start;
+}
+
+.ov-side { display: flex; flex-direction: column; gap: .75rem; }
+
+.ov-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .9rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+
+.ov-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem;
+}
+.ov-card-head h3 { margin: 0; font-size: .95rem; font-weight: 620; color: var(--text); }
+
+.ov-more {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  font-size: .8rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color var(--t);
+}
+.ov-more:hover { color: var(--brand); }
+
+.ov-empty { margin: 0; font-size: .875rem; color: var(--text-dim); line-height: 1.55; }
+
+/* ---- event feed ---------------------------------------------------- */
+.ov-events { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+
+.ov-event {
+  display: flex;
+  gap: .65rem;
+  padding: .4rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: .875rem;
+  line-height: 1.45;
+}
+.ov-event:last-child { border-bottom: 0; }
+
+.ov-event-time {
+  flex: none;
+  color: var(--text-mute);
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: .78rem;
+  padding-top: .1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ov-event-body { color: var(--text-dim); min-width: 0; overflow-wrap: anywhere; }
+.ov-event-body b { color: var(--text); font-weight: 600; }
+
+/* Severity reads at a glance without a second column for it. */
+.ov-event.t-warn .ov-event-body { color: var(--warn); }
+.ov-event.t-error .ov-event-body { color: var(--danger); }
+.ov-event.t-join .ov-event-body b { color: var(--ok); }
+.ov-event.t-leave .ov-event-body b { color: var(--text-mute); }
+
+/* ---- online list --------------------------------------------------- */
+.ov-online { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .45rem; }
+.ov-online li {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  font-size: .875rem;
+  color: var(--text);
+}
+
+.ov-av {
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: .75rem;
+  font-weight: 650;
+  color: #0b0e12;
+  flex: none;
+}
+
+.ov-op {
+  font-size: .68rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 14%, transparent);
+  padding: .1rem .35rem;
+  border-radius: 4px;
+}
+
+/* ---- backup + actions ---------------------------------------------- */
+.ov-backup {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .875rem;
+  color: var(--text-dim);
+}
+
+.ov-actions { display: flex; flex-direction: column; gap: .4rem; }
+
+.ov-act {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem .7rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  color: var(--text-dim);
+  font-size: .855rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition: color var(--t), border-color var(--t), background var(--t);
+}
+.ov-act:hover:not(:disabled) { color: var(--text); border-color: var(--line-strong); }
+.ov-act:active:not(:disabled) { transform: scale(var(--t-press)); }
+.ov-act:disabled { opacity: .5; cursor: not-allowed; }
+
+@media (max-width: 860px) {
+  .ov-cols { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ov-page { animation: none; }
+  .ov-act:active:not(:disabled) { transform: none; }
+}

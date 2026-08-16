@@ -1,0 +1,186 @@
+.rd-root {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.rd-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.rd-box {
+  position: relative;
+  width: min(30rem, 100%);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.15rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+  box-shadow: 0 18px 50px rgb(0 0 0 / 0.4);
+  animation: rd-pop var(--t) var(--ease) both;
+}
+
+@keyframes rd-pop {
+  from { opacity: 0; transform: scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.rd-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.rd-head h3 {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 620;
+  color: var(--text);
+}
+
+.rd-x {
+  background: none;
+  border: 0;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: .25rem;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  transition: color var(--t), background var(--t);
+}
+.rd-x:hover { color: var(--text); background: var(--bg-3); }
+.rd-x:active { transform: scale(var(--t-press)); }
+
+.rd-lede {
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+/* The warning picker. A grid rather than a row so seven options wrap
+   predictably instead of squeezing on a narrow window. */
+.rd-opts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  gap: .4rem;
+}
+
+.rd-opt {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem .65rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-3);
+  color: var(--text-dim);
+  font-size: .875rem;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color var(--t), color var(--t), background var(--t);
+}
+.rd-opt:hover { border-color: var(--line-strong); color: var(--text); }
+.rd-opt:active { transform: scale(var(--t-press)); }
+.rd-opt.on {
+  border-color: var(--brand);
+  color: var(--text);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+}
+.rd-opt input { accent-color: var(--brand); margin: 0; }
+
+.rd-warn,
+.rd-note {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  font-size: .855rem;
+  line-height: 1.5;
+  padding: .6rem .75rem;
+  border-radius: 8px;
+}
+
+.rd-warn {
+  color: var(--warn);
+  background: color-mix(in srgb, var(--warn) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent);
+}
+.rd-warn svg { flex: none; margin-top: .1rem; }
+
+.rd-note {
+  color: var(--text-dim);
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+}
+
+.rd-foot {
+  display: flex;
+  gap: .5rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.rd-btn {
+  padding: .5rem .9rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  color: var(--text-dim);
+  font-size: .875rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition: color var(--t), border-color var(--t), background var(--t);
+}
+.rd-btn:hover { color: var(--text); }
+.rd-btn:active { transform: scale(var(--t-press)); }
+
+.rd-go {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+}
+.rd-go.danger {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+}
+
+.rd-live {
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+  align-items: center;
+  text-align: center;
+  padding: .5rem 0;
+}
+
+.rd-count {
+  font-size: 2rem;
+  font-weight: 640;
+  letter-spacing: -.02em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.rd-count-sm { font-size: 1.1rem; }
+
+.rd-live .rd-foot { justify-content: center; width: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-box { animation: none; }
+  .rd-btn:active,
+  .rd-opt:active,
+  .rd-x:active { transform: none; }
+}

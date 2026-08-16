@@ -1,0 +1,321 @@
+.rp-root {
+  --rp-surface: #16213e;
+  --rp-inset: #101a33;
+  --rp-line: rgba(255, 255, 255, 0.08);
+  --rp-line-2: #26365f;
+  --rp-text: #e9ecf3;
+  --rp-dim: #a6aec0;
+  --rp-brand: #4ecca3;
+  --rp-brand-soft: rgba(78, 204, 163, 0.14);
+  --rp-brand-ink: #06130d;
+  --rp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rp-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 10, 20, 0.55);
+  animation: rp-scrim-in 0.22s ease both;
+}
+
+.rp-panel {
+  position: relative;
+  width: min(440px, 100vw);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--rp-surface);
+  border-left: 1px solid var(--rp-line-2);
+  box-shadow: -18px 0 48px rgba(0, 0, 0, 0.4);
+  color: var(--rp-text);
+  animation: rp-panel-in 0.26s var(--rp-ease) both;
+}
+
+.rp-root.closing .rp-scrim {
+  animation: rp-scrim-out 0.2s ease both;
+}
+.rp-root.closing .rp-panel {
+  animation: rp-panel-out 0.22s ease both;
+}
+
+@keyframes rp-scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes rp-scrim-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes rp-panel-in {
+  from { transform: translateX(100%); }
+  to { transform: none; }
+}
+@keyframes rp-panel-out {
+  from { transform: none; }
+  to { transform: translateX(100%); }
+}
+
+.rp-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--rp-line);
+  flex-shrink: 0;
+}
+
+.rp-avatar {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #fff;
+}
+
+.rp-headtext {
+  min-width: 0;
+  flex: 1;
+}
+
+.rp-name {
+  font-size: 1.02rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rp-sub {
+  margin-top: 0.1rem;
+  font-size: 0.78rem;
+  color: var(--rp-dim);
+}
+
+.rp-close {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--rp-dim);
+  cursor: pointer;
+  transition: background-color var(--t), color var(--t);
+}
+.rp-close:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--rp-text);
+}
+.rp-close:active {
+  transform: scale(0.9) rotate(90deg);
+  transition: transform var(--t-press);
+}
+
+.rp-body {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 1rem;
+}
+
+.rp-section {
+  padding: 1.05rem 1.25rem;
+  border-top: 1px solid var(--rp-line);
+}
+.rp-section:first-child {
+  border-top: none;
+}
+
+.rp-section-title {
+  margin: 0 0 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--rp-dim);
+}
+
+.rp-hint {
+  margin: -0.3rem 0 0.6rem;
+  font-size: 0.75rem;
+  color: var(--rp-dim);
+}
+.rp-hint.rp-warn {
+  color: #fbbf24;
+}
+
+.rp-select {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  background: var(--rp-inset);
+  border: 1px solid var(--rp-line-2);
+  border-radius: 8px;
+  color: var(--rp-text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.rp-select:focus {
+  outline: none;
+  border-color: var(--rp-brand);
+  box-shadow: 0 0 0 3px var(--rp-brand-soft);
+}
+.rp-select:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.rp-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0;
+}
+.rp-toggle-row + .rp-toggle-row {
+  border-top: 1px solid var(--rp-line);
+}
+.rp-toggle-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  color: var(--rp-text);
+}
+.rp-toggle-label svg {
+  flex-shrink: 0;
+  color: var(--rp-dim);
+}
+
+.rp-custom-tag {
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.14);
+}
+
+.rp-toggle {
+  flex-shrink: 0;
+  padding: 0.32rem 0.75rem;
+  border: 1px solid var(--rp-line-2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--rp-dim);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--t), border-color var(--t), color var(--t);
+}
+.rp-toggle:hover:not(:disabled) {
+  border-color: var(--rp-brand);
+  color: var(--rp-text);
+}
+.rp-toggle.is-on {
+  background: var(--rp-brand-soft);
+  border-color: transparent;
+  color: var(--rp-brand);
+}
+.rp-toggle:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.rp-toggle:active:not(:disabled) {
+  transform: scale(0.95);
+  transition: transform var(--t-press);
+}
+
+.rp-owner-banner {
+  margin: 1.1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  color: #fbbf24;
+  font-size: 0.85rem;
+}
+
+.rp-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.25rem;
+  border-top: 1px solid var(--rp-line);
+  flex-shrink: 0;
+}
+
+.rp-unsaved {
+  flex: 1;
+  font-size: 0.78rem;
+  color: #fbbf24;
+}
+
+.rp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--t-fast), background-color var(--t);
+}
+.rp-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.rp-btn-primary {
+  border: none;
+  background: var(--rp-brand);
+  color: var(--rp-brand-ink);
+}
+.rp-btn-primary:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+.rp-btn-ghost {
+  border: 1px solid var(--rp-line-2);
+  background: transparent;
+  color: var(--rp-dim);
+}
+.rp-btn-ghost:not(:disabled):hover {
+  color: var(--rp-text);
+  border-color: var(--rp-line-2);
+}
+
+.rp-spin {
+  animation: rp-spin 0.8s linear infinite;
+}
+@keyframes rp-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-scrim,
+  .rp-panel,
+  .rp-spin {
+    animation: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .rp-panel {
+    width: 100vw;
+  }
+}

@@ -1,0 +1,95 @@
+.ce {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  --ce-py: 12px;
+  --ce-px: 14px;
+}
+
+.ce-gutter {
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: var(--ce-py) 10px var(--ce-py) 12px;
+  text-align: right;
+  color: #5b6788;
+  background: rgba(255, 255, 255, 0.018);
+  border-right: 1px solid var(--line-soft);
+  user-select: none;
+}
+.ce-gutter-inner {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre;
+  will-change: transform;
+}
+
+.ce-scroll {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+}
+.ce-inner {
+  position: relative;
+  min-height: 100%;
+  width: max-content;
+  min-width: 100%;
+}
+
+.ce-pre,
+.ce-ta {
+  margin: 0;
+  padding: var(--ce-py) var(--ce-px);
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  tab-size: 2;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  border: 0;
+  letter-spacing: normal;
+  box-sizing: border-box;
+}
+
+.ce-pre {
+  min-width: 100%;
+  pointer-events: none;
+  color: var(--text);
+}
+
+.ce-ta {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--brand);
+  overflow: hidden;
+}
+.ce-ta::selection {
+  background: rgba(78, 204, 163, 0.28);
+}
+
+/* JSON token colours — distinct hues, readable on the dark editor ground */
+.j-key { color: #5fd6b0; }
+.j-str { color: #e0a86a; }
+.j-num { color: #74b6ff; }
+.j-bool { color: #c48fff; }
+.j-null { color: #c48fff; }
+.j-punc { color: #8390b4; }
+
+/* .properties token colours */
+.p-key { color: #5fd6b0; }
+.p-eq { color: #8390b4; }
+.p-val { color: #e0a86a; }
+.p-comment { color: #6b7590; font-style: italic; }

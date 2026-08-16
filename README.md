@@ -1,77 +1,46 @@
-# React + TypeScript + Vite
+# mc-manager-client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web client for [mc-manager-server](https://github.com/lomokwa/mc-manager-server) — manage a Minecraft server from the browser: live console, player management, server setup (version picker, properties), in-app file editing, world backups, and user management.
 
-Currently, two official plugins are available:
+Built with React 19 + TypeScript + Vite (React Compiler enabled).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Getting started
 
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+cp .env.example .env   # then adjust if your API isn't on localhost:8080
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app expects a running `mc-manager-server`. Sign in with your account, or register with an invitation token (an admin creates invitations via `POST /api/admin/invitations` — see the server's `INVITATION_AUTH.md`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Environment variables
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+All variables are optional — the defaults target a local server on port 8080.
 
-```
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `VITE_API_BASE` | `http://localhost:8080/api` | Base URL of the mc-manager REST API |
+| `VITE_WS_URL` | `ws://localhost:8080/api/console` | WebSocket URL of the live console |
+| `VITE_BLUEMAP_URL` | _(empty)_ | Default URL for the player panel's "View on live map" link (also settable on the Settings page) |
+
+Vite only exposes variables prefixed with `VITE_`, and they are inlined at build time — rebuild after changing them. Authentication uses your login (JWT); no API key is configured in the client.
+
+## Scripts
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the dev server on `http://localhost:5173` |
+| `npm run build` | Type-check (`tsc -b`) and build to `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
+
+## Pages
+
+- **Console** — live server log over WebSocket, with a command input offering Minecraft-style suggestions and tab-completion
+- **Players** — known players with op / whitelisted / banned / online status; open one for a management panel (op, whitelist, teleport, run-as, kick/ban, and a live chat)
+- **Files** — browse the server directory and edit text / JSON / `.properties` files in-app, with JSON validation and highlighting
+- **Backups** — create, restore, and schedule world backups
+- **Server** — create the server (vanilla/Fabric, version picker) and edit `server.properties`
+- **Settings** — client preferences, e.g. the BlueMap live-map URL
+- **Users** — manage accounts and invitations

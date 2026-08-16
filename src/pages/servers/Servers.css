@@ -1,0 +1,328 @@
+.servers-page {
+  padding: 1.5rem;
+  overflow-y: auto;
+  height: 100%;
+  color: var(--text);
+  animation: page-enter 0.4s var(--ease) both;
+}
+
+.servers-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.servers-head h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.servers-note {
+  margin: 0.3rem 0 0;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.servers-head-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Page-scoped button, same shape as .bbtn/.fbtn/.pf-btn elsewhere. */
+.svbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-3);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.83rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform var(--t-fast), border-color var(--t), background-color var(--t), box-shadow var(--t), color var(--t);
+}
+.svbtn:hover:not(:disabled) {
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
+.svbtn:active:not(:disabled) {
+  transform: scale(0.95);
+  transition: transform var(--t-press);
+}
+.svbtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.svbtn .spin {
+  animation: servers-spin 0.8s linear infinite;
+}
+@keyframes servers-spin {
+  to { transform: rotate(360deg); }
+}
+
+.svbtn-primary {
+  background: var(--brand);
+  border-color: transparent;
+  color: var(--brand-ink);
+  font-weight: 600;
+}
+.svbtn-primary:hover:not(:disabled) {
+  box-shadow: 0 5px 16px var(--brand-glow);
+}
+
+.svbtn-icon {
+  padding: 0.5rem;
+  flex-shrink: 0;
+}
+
+.svbtn-danger-ghost:hover:not(:disabled) {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.servers-loading {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.servers-empty {
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--text-dim);
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+}
+.servers-empty svg {
+  color: var(--text-mute);
+}
+.servers-empty p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.servers-empty-sub {
+  color: var(--text-mute);
+  font-size: 0.78rem;
+}
+.servers-empty code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85em;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.servers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 0.9rem;
+  max-width: 1100px;
+}
+
+.server-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1.1rem 1.15rem;
+  background: rgba(22, 33, 62, 0.5);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  transition: border-color var(--t);
+}
+
+.server-card.is-current {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 1px var(--brand-glow);
+}
+
+.server-card-badge {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.server-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.server-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--text-mute);
+}
+.server-dot.online {
+  background: var(--ok);
+  box-shadow: 0 0 6px rgba(74, 222, 128, 0.55);
+}
+.server-dot.offline {
+  background: var(--danger);
+}
+
+.server-card-name {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.server-card-state {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: var(--text-mute);
+}
+
+.server-card-meta {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.server-card-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.server-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.server-stat svg {
+  color: var(--text-mute);
+}
+
+.server-mem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.server-mem-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--text-mute);
+}
+
+.server-mem-track {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+/* No transition on purpose. The width comes from the server's CONFIGURED Xmx
+   (see Servers.tsx's memPct), which is static config -- it can only change if
+   someone edits it between two refreshes, so the animation almost never ran
+   while still costing a layout-animating property.
+
+   scaleX would be the usual swap, but not here: the bar is 5px tall with
+   border-radius 999px, so the radius resolves to 2.5px and scaling X squashes
+   the pill caps into ellipses. Removing the animation is both cheaper and
+   truer to the data. */
+.server-mem-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand-dim), var(--brand));
+}
+
+.server-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.3rem;
+}
+
+.server-card-actions .svbtn-primary {
+  flex: 1;
+}
+
+.server-card-new {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1.1rem;
+  min-height: 150px;
+  background: transparent;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  color: var(--text-mute);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+.server-card-new svg {
+  opacity: 0.7;
+}
+
+.server-card-new-sub {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svbtn .spin {
+    animation: none;
+  }
+  .server-card,
+  .server-mem-fill {
+    transition: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .servers-page {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .servers-head {
+    flex-direction: column;
+  }
+  .servers-grid {
+    grid-template-columns: 1fr;
+  }
+}

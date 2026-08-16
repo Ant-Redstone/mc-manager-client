@@ -1,0 +1,516 @@
+.auto-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: page-enter var(--t) var(--ease) both;
+}
+
+.auto-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.auto-head h2 { margin: 0; }
+.auto-sub { margin: .2rem 0 0; color: var(--text-dim); font-size: .9rem; max-width: 40rem; }
+
+.auto-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .45rem .8rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  color: var(--text-dim);
+  font-size: .855rem;
+  cursor: pointer;
+  transition: color var(--t), border-color var(--t);
+}
+.auto-refresh:hover:not(:disabled) { color: var(--text); border-color: var(--line-strong); }
+.auto-refresh:active:not(:disabled) { transform: scale(.97); }
+.auto-refresh:disabled { opacity: .55; cursor: default; }
+
+.auto-error { margin: 0; color: var(--danger); font-size: .875rem; }
+.auto-empty { margin: 0; color: var(--text-mute); font-size: .9rem; }
+
+/* ---- first-run -------------------------------------------------------
+   The blank state is where someone learns what an automation is, so it
+   carries examples rather than just saying there are none. */
+.auto-blank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  padding: 2.5rem 1.5rem;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  color: var(--text-mute);
+  text-align: center;
+}
+.auto-blank p { margin: 0; }
+.auto-blank-hint { max-width: 34rem; font-size: .875rem; line-height: 1.55; }
+
+/* ---- the list -------------------------------------------------------- */
+.auto-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+
+.auto-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: .8rem .9rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+}
+
+/* A disabled rule has to LOOK disabled. Without this the list quietly
+   misreports what is actually running. */
+.auto-row.off { opacity: .58; }
+.auto-row.off .auto-desc { text-decoration-color: var(--text-mute); }
+
+.auto-main { flex: 1; min-width: 0; }
+
+.auto-titleline { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.auto-titleline b { font-size: .95rem; }
+
+.auto-tag {
+  padding: .1rem .4rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--text-mute);
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.auto-desc { margin: .25rem 0 0; color: var(--text-dim); font-size: .875rem; line-height: 1.5; }
+
+.auto-meta {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-top: .4rem;
+  font-size: .78rem;
+  color: var(--text-mute);
+}
+
+.auto-hist {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-mute);
+  font-size: .78rem;
+  cursor: pointer;
+  transition: color var(--t);
+}
+.auto-hist:hover { color: var(--text-dim); }
+.auto-hist .flip { transform: rotate(180deg); transition: transform var(--t) var(--ease); }
+
+/* The disk caveat: the number is the host volume, not this server. Stated on
+   the row rather than in a tooltip, because a tooltip is a place to hide it. */
+.auto-note { font-style: italic; }
+
+/* ---- firing history --------------------------------------------------- */
+.auto-firings {
+  margin-top: .6rem;
+  padding-top: .6rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.auto-dim { margin: 0; color: var(--text-mute); font-size: .8rem; }
+
+.auto-firing {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  flex-wrap: wrap;
+  font-size: .78rem;
+  color: var(--text-mute);
+}
+.auto-firing code {
+  color: var(--text-dim);
+  background: var(--bg-3);
+  padding: .1rem .35rem;
+  border-radius: 5px;
+  font-size: .74rem;
+  overflow-wrap: anywhere;
+}
+
+.auto-steps { display: inline-flex; gap: .45rem; flex-wrap: wrap; }
+.auto-steps span { display: inline-flex; align-items: center; gap: .2rem; }
+.auto-steps .ok { color: var(--ok); }
+.auto-steps .bad { color: var(--danger); }
+
+/* ---- row controls ----------------------------------------------------- */
+.auto-actions { display: flex; align-items: center; gap: .4rem; flex-shrink: 0; }
+
+.abtn {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .35rem .5rem;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  color: var(--text-dim);
+  font-size: .8rem;
+  cursor: pointer;
+  transition: color var(--t), border-color var(--t);
+}
+.abtn:hover:not(:disabled) { color: var(--text); border-color: var(--line-strong); }
+.abtn:active:not(:disabled) { transform: scale(.97); }
+.abtn:disabled { opacity: .45; cursor: default; }
+.abtn-danger:hover:not(:disabled) { color: var(--danger); border-color: var(--danger); }
+
+.auto-confirm { display: inline-flex; align-items: center; gap: .4rem; font-size: .8rem; color: var(--text-dim); }
+
+/* ---- the on/off switch ------------------------------------------------ */
+.auto-switch { position: relative; display: inline-block; width: 34px; height: 19px; flex-shrink: 0; }
+.auto-switch input { opacity: 0; width: 0; height: 0; }
+
+.auto-slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: background var(--t), border-color var(--t);
+}
+.auto-slider::before {
+  content: '';
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  background: var(--text-mute);
+  transition: transform var(--t) var(--ease), background var(--t);
+}
+.auto-switch input:checked + .auto-slider {
+  background: color-mix(in srgb, var(--brand) 28%, transparent);
+  border-color: var(--brand);
+}
+.auto-switch input:checked + .auto-slider::before {
+  transform: translateX(15px);
+  background: var(--brand);
+}
+.auto-switch input:disabled + .auto-slider { opacity: .5; cursor: default; }
+.auto-switch input:focus-visible + .auto-slider { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .auto-row { flex-direction: column; gap: .6rem; }
+  .auto-actions { align-self: flex-end; }
+}
+
+/* ---- the builder slide-over -------------------------------------------- */
+.rb-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .5);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 40;
+  animation: rb-fade var(--t) var(--ease) both;
+}
+@keyframes rb-fade { from { opacity: 0 } to { opacity: 1 } }
+
+.rb-panel {
+  width: min(560px, 100%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-2);
+  border-left: 1px solid var(--line);
+  animation: rb-slide var(--t) var(--ease) both;
+}
+@keyframes rb-slide { from { transform: translateX(24px); opacity: .4 } to { transform: none; opacity: 1 } }
+
+.rb-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.rb-head h3 { margin: 0; font-size: 1rem; }
+
+.rb-x {
+  display: inline-flex;
+  padding: .3rem;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--text-mute);
+  cursor: pointer;
+  transition: color var(--t);
+}
+.rb-x:hover { color: var(--text); }
+
+.rb-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.rb-section { display: flex; flex-direction: column; gap: .6rem; }
+.rb-section h4 {
+  margin: 0;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-mute);
+}
+
+.rb-field { display: flex; flex-direction: column; gap: .3rem; flex: 1; min-width: 0; }
+.rb-field > span { font-size: .8rem; color: var(--text-dim); }
+.rb-field small, .rb-note, .rb-check small {
+  color: var(--text-mute);
+  font-size: .75rem;
+  line-height: 1.5;
+}
+.rb-field small code {
+  background: var(--bg-3);
+  padding: .05rem .25rem;
+  border-radius: 4px;
+}
+
+.rb-row { display: flex; gap: .6rem; flex-wrap: wrap; align-items: flex-end; }
+.rb-inline { font-size: .8rem; color: var(--text-dim); align-self: center; }
+.rb-narrow { max-width: 5rem; }
+
+.rb-panel input[type='text'],
+.rb-panel input:not([type]),
+.rb-panel input[type='number'],
+.rb-panel input[type='time'],
+.rb-panel select,
+.rb-panel textarea {
+  width: 100%;
+  padding: .45rem .55rem;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  color: var(--text);
+  font: inherit;
+  font-size: .85rem;
+}
+.rb-panel textarea { resize: vertical; }
+.rb-panel input:focus-visible,
+.rb-panel select:focus-visible,
+.rb-panel textarea:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+.rb-panel input:disabled, .rb-panel select:disabled { opacity: .45; }
+
+.rb-check { display: flex; align-items: flex-start; gap: .5rem; font-size: .82rem; color: var(--text-dim); }
+.rb-check input { width: auto; flex-shrink: 0; margin-top: .15rem; }
+.rb-check span { display: flex; flex-direction: column; gap: .15rem; }
+
+.rb-dim { margin: 0; color: var(--text-mute); font-size: .82rem; }
+.rb-warn { margin: 0; color: var(--warn); font-size: .8rem; }
+.rb-label { font-size: .8rem; color: var(--text-dim); }
+
+/* ---- the ordered action list ------------------------------------------
+   Numbered because the order is load-bearing: stop_on_failure means step 2
+   never runs if step 1 fails. */
+.rb-actions { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+
+.rb-action {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--bg-3);
+  padding: .55rem;
+}
+
+.rb-action-head { display: flex; align-items: center; gap: .4rem; }
+.rb-action-head select { flex: 1; }
+.rb-action-head button {
+  display: inline-flex;
+  padding: .3rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-mute);
+  cursor: pointer;
+  transition: color var(--t), border-color var(--t);
+}
+.rb-action-head button:hover:not(:disabled) { color: var(--text); border-color: var(--line-strong); }
+.rb-action-head button:disabled { opacity: .3; cursor: default; }
+
+.rb-action-body { display: flex; flex-direction: column; gap: .4rem; margin-top: .5rem; }
+
+.rb-vars { display: flex; flex-wrap: wrap; gap: .3rem; }
+.rb-var {
+  padding: .15rem .4rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-mute);
+  font-family: ui-monospace, monospace;
+  font-size: .72rem;
+  cursor: pointer;
+  transition: color var(--t), border-color var(--t);
+}
+.rb-var:hover { color: var(--brand); border-color: var(--brand); }
+
+.rb-warns { display: flex; flex-wrap: wrap; gap: .3rem; }
+.rb-warnchip {
+  padding: .25rem .5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-mute);
+  font-size: .76rem;
+  cursor: pointer;
+  transition: color var(--t), border-color var(--t), background var(--t);
+}
+.rb-warnchip.on {
+  color: var(--text);
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 14%, transparent);
+}
+
+.rb-add {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .4rem .7rem;
+  border-radius: 7px;
+  border: 1px dashed var(--line);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: .82rem;
+  cursor: pointer;
+  transition: color var(--t), border-color var(--t);
+}
+.rb-add:hover { color: var(--text); border-color: var(--brand); }
+
+/* ---- footer ------------------------------------------------------------ */
+.rb-foot {
+  flex-shrink: 0;
+  padding: .8rem 1.1rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.rb-error { margin: 0; color: var(--danger); font-size: .8rem; line-height: 1.5; }
+.rb-foot-buttons { display: flex; justify-content: flex-end; gap: .5rem; }
+
+.abtn-go {
+  border-color: var(--brand);
+  color: var(--brand-ink);
+  background: var(--brand);
+}
+.abtn-go:hover:not(:disabled) { background: var(--brand-hover); color: var(--brand-ink); }
+
+/* ---- the "new automation" button on the page header -------------------- */
+.auto-new {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .45rem .8rem;
+  border-radius: 8px;
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-size: .855rem;
+  cursor: pointer;
+  transition: background var(--t);
+}
+.auto-new:hover { background: var(--brand-hover); }
+.auto-new:active { transform: scale(.97); }
+
+.auto-headbtns { display: flex; gap: .5rem; align-items: center; }
+
+@media (max-width: 640px) {
+  .rb-panel { width: 100%; }
+}
+
+/* ---- Discord destinations ---------------------------------------------- */
+.dest {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-top: 1.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+}
+
+.dest-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.dest-head h3 {
+  margin: 0;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-mute);
+}
+
+.dest-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: center;
+  padding: .7rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--bg-2);
+}
+.dest-add input {
+  flex: 1;
+  min-width: 12rem;
+  padding: .45rem .55rem;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  color: var(--text);
+  font: inherit;
+  font-size: .85rem;
+}
+.dest-add input:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.dest-add small { flex-basis: 100%; color: var(--text-mute); font-size: .75rem; line-height: 1.5; }
+
+.dest-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
+
+.dest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .6rem .8rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--bg-2);
+}
+
+.dest-main { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; min-width: 0; }
+.dest-main b { font-size: .9rem; }
+
+.dest-status { font-size: .76rem; }
+/* Grey, NOT green. An untested destination and a working one looking alike is
+   exactly what the test button exists to prevent. */
+.dest-status.untested { color: var(--text-mute); }
+.dest-status.ok { color: var(--ok); }
+.dest-status.bad { color: var(--danger); }
+
+.dest-actions { display: flex; align-items: center; gap: .4rem; flex-shrink: 0; }
+
+@media (max-width: 640px) {
+  .dest-row { flex-direction: column; align-items: flex-start; }
+}

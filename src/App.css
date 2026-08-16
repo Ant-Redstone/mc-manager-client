@@ -1,10 +1,10 @@
 .app {
   display: flex;
   flex-direction: row;
-  height: 100vh;
-  background: #1a1a2e;
-  color: #e0e0e0;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  height: 100dvh;
+  background: transparent;
+  color: var(--text);
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 }
 
 .main-content {
@@ -19,14 +19,23 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: #16213e;
-  border-bottom: 1px solid #0f3460;
+  background: rgba(22, 33, 62, 0.72);
+  backdrop-filter: blur(12px) saturate(140%);
+  border-bottom: 1px solid var(--line-soft);
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .header h1 {
   margin: 0;
   font-size: 1.4rem;
-  color: #4ecca3;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, #4ecca3, #8fe9d0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .controls {
@@ -43,12 +52,24 @@
 
 .status-dot.online {
   background: #4ecca3;
-  box-shadow: 0 0 6px #4ecca3;
+  animation: dot-pulse 2s var(--ease) infinite;
+}
+
+@keyframes dot-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(78, 204, 163, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(78, 204, 163, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(78, 204, 163, 0);
+  }
 }
 
 .status-dot.offline {
   background: #e94560;
-  box-shadow: 0 0 6px #e94560;
+  box-shadow: 0 0 6px rgba(233, 69, 96, 0.6);
 }
 
 .status-text {
@@ -57,13 +78,22 @@
 }
 
 .btn {
-  padding: 8px 16px;
+  padding: 8px 18px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: transform var(--t-fast), box-shadow var(--t), filter var(--t-fast);
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.96);
+  transition: transform var(--t-press);
 }
 
 .btn:disabled {
@@ -72,13 +102,21 @@
 }
 
 .btn-start {
-  background: #4ecca3;
-  color: #1a1a2e;
+  background: linear-gradient(135deg, #4ecca3, #3aa885);
+  color: var(--brand-ink);
+}
+
+.btn-start:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(78, 204, 163, 0.35);
 }
 
 .btn-stop {
-  background: #e94560;
+  background: linear-gradient(135deg, #e94560, #c4344c);
   color: #fff;
+}
+
+.btn-stop:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.35);
 }
 
 .terminal {
@@ -86,10 +124,12 @@
   display: flex;
   flex-direction: column;
   margin: 16px;
-  border-radius: 8px;
+  border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid #0f3460;
-  background: #0f0f1a;
+  border: 1px solid var(--line-soft);
+  background: linear-gradient(180deg, rgba(15, 15, 26, 0.92), rgba(10, 12, 22, 0.96));
+  box-shadow: var(--shadow-1), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  animation: page-enter 0.4s var(--ease) both;
 }
 
 .terminal-output {
@@ -103,15 +143,24 @@
 .log-line {
   white-space: pre-wrap;
   word-break: break-all;
+  /* Skip rendering off-screen lines — cheap native virtualization for volume. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1.2em;
 }
 
 .terminal-input {
   display: flex;
   align-items: center;
   padding: 10px 16px;
-  background: #16213e;
-  border-top: 1px solid #0f3460;
+  background: rgba(22, 33, 62, 0.6);
+  border-top: 1px solid var(--line-soft);
   gap: 8px;
+  transition: box-shadow var(--t), background var(--t);
+}
+
+.terminal-input:focus-within {
+  background: rgba(22, 33, 62, 0.85);
+  box-shadow: inset 0 2px 0 -1px var(--brand-glow);
 }
 
 .terminal-input .prompt {
@@ -156,6 +205,8 @@
 
   .controls {
     gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   .btn {

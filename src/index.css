@@ -1,16 +1,182 @@
+:root {
+  /* Brand (teal/green identity) */
+  --brand: #4ecca3;
+  --brand-hover: #5fd6b0;
+  --brand-dim: #3aa885;
+  --brand-glow: rgba(78, 204, 163, 0.35);
+  --brand-ink: #0c2018;
+
+  /* Surfaces (navy) */
+  --bg-1: #1a1a2e; /* app background */
+  --bg-2: #16213e; /* header / sidebar */
+  --bg-3: #1e2746; /* elevated */
+  --surface: #1e1e2e; /* cards */
+  --surface-2: #232842; /* card hover */
+
+  /* Lines */
+  --line: #0f3460;
+  --line-soft: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.14);
+
+  /* Text */
+  --text: #e6e8ef;
+  --text-dim: #a0a0b0;
+  --text-mute: #6b7280;
+
+  /* Status */
+  --danger: #e94560;
+  --warn: #fbbf24;
+  --ok: #4ade80;
+  --info: #60a5fa;
+
+  /* Shape & motion */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 14px;
+  --shadow-1: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-2: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --ring: 0 0 0 3px var(--brand-glow);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1); /* out-quint */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 140ms var(--ease);
+  --t: 220ms var(--ease);
+  --t-press: 110ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
 }
 
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, 'SFMono-Regular', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: var(--text);
+  background: var(--bg-1);
+  overflow: hidden; /* the app shell manages its own scroll regions */
+}
+
+/* Ambient aurora — fixed, GPU-composited, drifts slowly behind everything. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(45rem 32rem at 12% -8%, rgba(78, 204, 163, 0.12), transparent 60%),
+    radial-gradient(42rem 34rem at 108% 8%, rgba(96, 165, 250, 0.1), transparent 55%),
+    radial-gradient(36rem 34rem at 50% 118%, rgba(124, 58, 237, 0.08), transparent 60%);
+  animation: aurora 42s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes aurora {
+  from {
+    transform: translate3d(-2%, -1%, 0) scale(1.05);
+  }
+  to {
+    transform: translate3d(2%, 2%, 0) scale(1.12);
+  }
+}
+
+::selection {
+  background: var(--brand-glow);
+  color: #fff;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+  transition: background-color var(--t);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(78, 204, 163, 0.5);
+  background-clip: padding-box;
+}
+
+/* Keyboard focus ring */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+/* Route enter + list reveal */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-enter {
+  animation: page-enter 0.4s var(--ease) both;
+}
+
+/* Staggered list entrance: each item carries style={{'--i': index}} and rises
+   in sequence. Fill 'both' + the reduced-motion guard below mean items always
+   settle visible (never gated blank). */
+.stagger-item {
+  animation: rise 0.34s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 42ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

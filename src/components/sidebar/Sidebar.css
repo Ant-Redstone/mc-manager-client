@@ -1,10 +1,11 @@
 .sidebar {
-  width: 200px;
-  background: #16213e;
-  border-right: 1px solid #0f3460;
+  width: 210px;
+  background: rgba(22, 33, 62, 0.55);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-right: 1px solid var(--line-soft);
   display: flex;
   flex-direction: column;
-  padding: 16px 0;
+  padding: 18px 12px;
 }
 
 .sidebar-nav {
@@ -14,39 +15,149 @@
 }
 
 .sidebar-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 20px;
+  padding: 10px 14px;
   border: none;
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: #a0a0b0;
+  color: var(--text-dim);
   font-family: inherit;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background var(--t), color var(--t);
   text-align: left;
   text-decoration: none;
 }
 
+/* Sliding accent bar that grows on the active route. */
+.sidebar-item::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  height: 56%;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #4ecca3, #60a5fa);
+  /* The bar keeps its real height and is scaled to nothing instead of being
+     grown from height:0 — a scale composites, a height animation relayouts
+     every frame. That matters here specifically: the console streams log
+     lines into the DOM continuously, so the main thread is often busy right
+     when someone clicks a nav item. scaleY collapses toward the element's own
+     center, which is the same motion translateY(-50%) already centered. */
+  transform: translateY(-50%) scaleY(0);
+  transition: transform var(--t);
+}
+
 .sidebar-item:hover {
-  background: rgba(78, 204, 163, 0.08);
-  color: #e0e0e0;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+.sidebar-item:hover .sidebar-icon {
+  transform: scale(1.08);
+  color: var(--brand);
+}
+
+.sidebar-item:active {
+  transform: scale(0.97);
+  transition: transform var(--t-press);
 }
 
 .sidebar-item.active {
   background: rgba(78, 204, 163, 0.12);
-  color: #4ecca3;
-  border-left: 3px solid #4ecca3;
-  padding-left: 17px;
+  color: var(--brand);
+}
+
+.sidebar-item.active::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
+.sidebar-item.active .sidebar-icon {
+  color: var(--brand);
 }
 
 .sidebar-icon {
   flex-shrink: 0;
+  transition: transform var(--t-fast), color var(--t);
 }
 
 .sidebar-label {
   font-weight: 500;
+}
+
+/* Logout sits at the bottom, visually separated from the nav. */
+.sidebar-logout {
+  margin-top: auto;
+  border-top: 1px solid var(--line-soft);
+  border-radius: 0;
+}
+
+.sidebar-logout:hover {
+  color: var(--danger);
+}
+
+.sidebar-logout:hover .sidebar-icon {
+  color: var(--danger);
+}
+
+/* Who's signed in — read from the JWT, links to /account, sits above Logout. */
+.sidebar-user {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  margin-bottom: 4px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line-soft);
+  text-decoration: none;
+  transition: background-color var(--t), border-color var(--t);
+}
+.sidebar-user:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--line-strong);
+}
+.sidebar-user + .sidebar-logout {
+  margin-top: 0;
+  border-top: none;
+}
+.sidebar-user-avatar {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+}
+.sidebar-user-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+.sidebar-user-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sidebar-user-sub {
+  font-size: 0.66rem;
+  color: var(--text-mute);
+}
+
+@media (max-width: 768px) {
+  .sidebar-user { display: none; }
 }
 
 @media (max-width: 768px) {
@@ -54,29 +165,65 @@
     width: 100%;
     flex-direction: row;
     order: 1;
-    padding: 0;
+    padding: 4px;
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
     border-right: none;
-    border-top: 1px solid #0f3460;
+    border-top: 1px solid var(--line-soft);
   }
 
   .sidebar-nav {
     flex-direction: row;
     width: 100%;
     justify-content: space-around;
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .sidebar-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .sidebar-item {
+    flex: 1 0 auto;
     flex-direction: column;
-    gap: 4px;
-    padding: 8px 12px;
-    font-size: 0.7rem;
+    gap: 3px;
+    padding: 6px 4px;
+    font-size: 0.62rem;
     align-items: center;
+    white-space: nowrap;
   }
 
-  .sidebar-item.active {
-    border-left: none;
-    border-top: 2px solid #4ecca3;
-    padding-left: 12px;
-    padding-top: 6px;
+  .sidebar-item::before {
+    left: 50%;
+    top: 4px;
+    height: 3px;
+    width: 40%;
+    /* Same trade as the desktop bar above, on the other axis. */
+    transform: translateX(-50%) scaleX(0);
+    transition: transform var(--t);
+  }
+
+  .sidebar-item.active::before {
+    transform: translateX(-50%) scaleX(1);
+  }
+
+  /* On mobile the logout joins the bottom nav row instead of anchoring. */
+  .sidebar-logout {
+    margin-top: 0;
+    border-top: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-item {
+    padding: 6px 3px;
+    font-size: 0.58rem;
+  }
+
+  .sidebar-icon {
+    width: 16px;
+    height: 16px;
   }
 }

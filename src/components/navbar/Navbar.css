@@ -1,1 +1,56 @@
 /* Navbar styles - moved from App.css header styles */
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* Current-server chip, only rendered once ServersContext confirms the
+   backend has the registry — see Navbar.tsx. */
+.server-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 8px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  flex-shrink: 1;
+  transition: border-color var(--t), color var(--t), background-color var(--t);
+}
+
+.server-chip:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: rgba(78, 204, 163, 0.08);
+}
+
+.action-error {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  max-width: 40ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .action-error {
+    max-width: 24ch;
+    font-size: 0.75rem;
+  }
+
+  .server-chip {
+    max-width: 96px;
+  }
+}
