@@ -442,3 +442,75 @@
 @media (max-width: 640px) {
   .rb-panel { width: 100%; }
 }
+
+/* ---- Discord destinations ---------------------------------------------- */
+.dest {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-top: 1.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+}
+
+.dest-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.dest-head h3 {
+  margin: 0;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-mute);
+}
+
+.dest-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: center;
+  padding: .7rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--bg-2);
+}
+.dest-add input {
+  flex: 1;
+  min-width: 12rem;
+  padding: .45rem .55rem;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  color: var(--text);
+  font: inherit;
+  font-size: .85rem;
+}
+.dest-add input:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.dest-add small { flex-basis: 100%; color: var(--text-mute); font-size: .75rem; line-height: 1.5; }
+
+.dest-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
+
+.dest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .6rem .8rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--bg-2);
+}
+
+.dest-main { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; min-width: 0; }
+.dest-main b { font-size: .9rem; }
+
+.dest-status { font-size: .76rem; }
+/* Grey, NOT green. An untested destination and a working one looking alike is
+   exactly what the test button exists to prevent. */
+.dest-status.untested { color: var(--text-mute); }
+.dest-status.ok { color: var(--ok); }
+.dest-status.bad { color: var(--danger); }
+
+.dest-actions { display: flex; align-items: center; gap: .4rem; flex-shrink: 0; }
+
+@media (max-width: 640px) {
+  .dest-row { flex-direction: column; align-items: flex-start; }
+}

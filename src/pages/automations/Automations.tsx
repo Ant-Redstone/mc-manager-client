@@ -17,6 +17,7 @@ import {
 } from '../../lib/automations'
 import { useServers } from '../../context/ServersContext'
 import RuleBuilder from './RuleBuilder'
+import Destinations from './Destinations'
 import './Automations.css'
 
 function Automations() {
@@ -46,6 +47,8 @@ function Automations() {
   const [busy, setBusy] = useState<number | null>(null)
   // null = closed. A Rule opens it for editing; `true` opens it empty.
   const [building, setBuilding] = useState<Rule | true | null>(null)
+  // Bumped when a destination changes, so a builder opened afterwards sees it.
+  const [destKey, setDestKey] = useState(0)
 
   // `load` fetches and returns; the caller applies. Keeping the setState out of
   // it is what lets the effect below call it without tripping the compiler's
@@ -304,8 +307,13 @@ function Automations() {
           ))}
         </ul>
       )}
+      {!unsupported && (
+        <Destinations mayManage={mayManage} onChanged={() => setDestKey((k) => k + 1)} />
+      )}
+
       {building && (
         <RuleBuilder
+          key={destKey}
           rule={building === true ? null : building}
           serverId={activeServerId}
           onClose={() => setBuilding(null)}
